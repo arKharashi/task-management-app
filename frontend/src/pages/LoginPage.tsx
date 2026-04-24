@@ -43,7 +43,7 @@ const LoginPage = () => {
         </div>
 
         <div>
-          <label htmlFor="email">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"
