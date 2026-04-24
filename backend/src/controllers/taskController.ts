@@ -29,3 +29,21 @@ export async function createTask(req: AuthRequest, res: Response) {
     return res.status(500).json({ message: "Server error" });
   }
 }
+
+export async function getTasks(req: AuthRequest, res: Response) {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
+    const tasks = await Task.find({
+      user: req.user.userId,
+    }).sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      tasks,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error" });
+  }
+}
