@@ -1,22 +1,34 @@
 import { useState, type FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
 
-    console.log({
-      email,
-      password,
-    });
+    try {
+      const response = await api.post("/auth/login", { email, password });
+
+      localStorage.setItem("token", response.data.token);
+
+      navigate("/dashboard");
+    } catch (error) {
+      setError("Invalid email or password");
+    }
   };
 
   return (
     <div>
       <h1>Login page</h1>
+
+      {error && <p>{error}</p>}
 
       <form onSubmit={handleSubmit}>
         <div>
