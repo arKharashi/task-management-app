@@ -56,6 +56,24 @@ const DashboardPage = () => {
     }
   }
 
+  async function handleToggleComplete(task: Task) {
+    setError("");
+
+    try {
+      const response = await api.put(`/tasks/${task._id}`, {
+        completed: !task.completed,
+      });
+
+      setTasks(
+        tasks.map((currentTask) =>
+          currentTask._id === task._id ? response.data.task : currentTask
+        )
+      );
+    } catch (error) {
+      setError("Failed to update task");
+    }
+  }
+
   return (
     <div>
       <h1>Dashboard</h1>
@@ -109,6 +127,9 @@ const DashboardPage = () => {
             <li key={task._id}>
               <strong>{task.title}</strong> - {task.priority} -{" "}
               {task.completed ? "Done" : "Pending"}
+              <button onClick={() => handleToggleComplete(task)}>
+                {task.completed ? "Mark Pending" : "Mark Done"}
+              </button>
             </li>
           ))}
         </ul>
