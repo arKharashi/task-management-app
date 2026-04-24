@@ -47,3 +47,41 @@ export async function getTasks(req: AuthRequest, res: Response) {
     return res.status(500).json({ message: "Server error" });
   }
 }
+
+export async function updateTask(req: AuthRequest, res: Response) {
+  try {
+    const { title, description, priority, completed } = req.body;
+
+    if (!req.user) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
+    const task = await Task.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        user: req.user.userId,
+      },
+      {
+        title,
+        description,
+        priority,
+        completed,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    return res.status(200).json({
+      message: "Task updated successfully",
+      task,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error" });
+  }
+}
