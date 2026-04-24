@@ -13,6 +13,9 @@ type Task = {
 const DashboardPage = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [error, setError] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState("medium");
 
   useEffect(() => {
     async function fetchTasks() {
@@ -32,9 +35,69 @@ const DashboardPage = () => {
     window.location.href = "/";
   };
 
+  async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+
+    try {
+      const response = await api.post("/tasks", {
+        title,
+        description,
+        priority,
+      });
+
+      setTasks([response.data.task, ...tasks]);
+
+      setTitle("");
+      setDescription("");
+      setPriority("medium");
+    } catch (error) {
+      setError("Failed to create task");
+    }
+  }
+
   return (
     <div>
       <h1>Dashboard</h1>
+
+      <form onSubmit={handleCreateTask}>
+        <div>
+          <label htmlFor="title">Title</label>
+          <input
+            id="title"
+            type="text"
+            placeholder="Task title"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="description">Description</label>
+          <input
+            id="description"
+            type="text"
+            placeholder="Task description"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="priority">Priority</label>
+          <select
+            id="priority"
+            value={priority}
+            onChange={(event) => setPriority(event.target.value)}
+          >
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+
+        <button type="submit">Add Task</button>
+      </form>
 
       {error && <p>{error}</p>}
 
