@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { getErrorMessage } from "../utils/getErrorMessage";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const RegisterPage = () => {
 
       navigate("/");
     } catch (error) {
-      setError(error.response?.data?.message || "Registration failed");
+      setError(getErrorMessage(error, "Registration failed"));
     }
   };
 
