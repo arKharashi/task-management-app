@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import api from "../services/api";
+import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 type Task = {
   _id: string;
@@ -12,11 +11,19 @@ type Task = {
 };
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
+
   const [tasks, setTasks] = useState<Task[]>([]);
   const [error, setError] = useState("");
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("medium");
+
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editPriority, setEditPriority] = useState("medium");
 
   useEffect(() => {
     async function fetchTasks() {
@@ -31,14 +38,12 @@ const DashboardPage = () => {
     fetchTasks();
   }, []);
 
-  const navigate = useNavigate();
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
   };
 
-  async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
+  async function handleCreateTask(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
 
@@ -56,18 +61,6 @@ const DashboardPage = () => {
       setPriority("medium");
     } catch (error) {
       setError("Failed to create task");
-    }
-  }
-
-  async function handleDeleteTask(taskId: string) {
-    setError("");
-
-    try {
-      await api.delete(`/tasks/${taskId}`);
-
-      setTasks(tasks.filter((task) => task._id !== taskId));
-    } catch (error) {
-      setError("Failed to delete task");
     }
   }
 
@@ -89,9 +82,57 @@ const DashboardPage = () => {
     }
   }
 
+  async function handleDeleteTask(taskId: string) {
+    setError("");
+
+    try {
+      await api.delete(`/tasks/${taskId}`);
+
+      setTasks(tasks.filter((task) => task._id !== taskId));
+    } catch (error) {
+      setError("Failed to delete task");
+    }
+  }
+
+  function handleStartEdit(task: Task) {
+    setEditingTaskId(task._id);
+    setEditTitle(task.title);
+    setEditDescription(task.description || "");
+    setEditPriority(task.priority);
+  }
+
+  function handleCancelEdit() {
+    setEditingTaskId(null);
+    setEditTitle("");
+    setEditDescription("");
+    setEditPriority("medium");
+  }
+
+  async function handleSaveEdit(taskId: string) {
+    setError("");
+
+    try {
+      const response = await api.put(`/tasks/${taskId}`, {
+        title: editTitle,
+        description: editDescription,
+        priority: editPriority,
+      });
+
+      setTasks(
+        tasks.map((task) => (task._id === taskId ? response.data.task : task))
+      );
+
+      handleCancelEdit();
+    } catch (error) {
+      setError("Failed to update task");
+    }
+  }
+
   return (
     <div>
       <h1>Dashboard</h1>
+
+      {error && <p>{error}</p>}
 
       <form onSubmit={handleCreateTask}>
         <div>
@@ -132,20 +173,52 @@ const DashboardPage = () => {
         <button type="submit">Add Task</button>
       </form>
 
-      {error && <p>{error}</p>}
-
       {tasks.length === 0 ? (
         <p>No tasks yet</p>
       ) : (
         <ul>
           {tasks.map((task) => (
             <li key={task._id}>
-              <strong>{task.title}</strong> - {task.priority} -{" "}
-              {task.completed ? "Done" : "Pending"}
-              <button onClick={() => handleToggleComplete(task)}>
-                {task.completed ? "Mark Pending" : "Mark Done"}
-              </button>
-              <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
+              {editingTaskId === task._id ? (
+                <div>
+                  <input
+                    type="text"
+                    value={editTitle}
+                    onChange={(event) => setEditTitle(event.target.value)}
+                  />
+
+                  <input
+                    type="text"
+                    value={editDescription}
+                    onChange={(event) => setEditDescription(event.target.value)}
+                  />
+
+                  <select
+                    value={editPriority}
+                    onChange={(event) => setEditPriority(event.target.value)}
+                  >
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+
+                  <button onClick={() => handleSaveEdit(task._id)}>Save</button>
+                  <button onClick={handleCancelEdit}>Cancel</button>
+                </div>
+              ) : (
+                <div>
+                  <strong>{task.title}</strong> - {task.priority} -{" "}
+                  {task.completed ? "Done" : "Pending"}
+                  {task.description && <p>{task.description}</p>}
+                  <button onClick={() => handleToggleComplete(task)}>
+                    {task.completed ? "Mark Pending" : "Mark Done"}
+                  </button>
+                  <button onClick={() => handleStartEdit(task)}>Edit</button>
+                  <button onClick={() => handleDeleteTask(task._id)}>
+                    Delete
+                  </button>
+                </div>
+              )}
             </li>
           ))}
         </ul>
