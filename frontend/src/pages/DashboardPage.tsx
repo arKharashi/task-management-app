@@ -27,7 +27,7 @@ const DashboardPage = () => {
         const response = await api.get("/tasks");
         setTasks(response.data.tasks);
       } catch (error) {
-        setError("Failed to fetch tasks");
+        setError(error.response?.data?.message || "Failed to fetch tasks");
       }
     }
 
@@ -56,7 +56,7 @@ const DashboardPage = () => {
       setDescription("");
       setPriority("medium");
     } catch (error) {
-      setError("Failed to create task");
+      setError(error.response?.data?.message || "Failed to create task");
     }
   }
 
@@ -74,7 +74,7 @@ const DashboardPage = () => {
         )
       );
     } catch (error) {
-      setError("Failed to update task");
+      setError(error.response?.data?.message || "Failed to update task");
     }
   }
 
@@ -86,7 +86,7 @@ const DashboardPage = () => {
 
       setTasks(tasks.filter((task) => task._id !== taskId));
     } catch (error) {
-      setError("Failed to delete task");
+      setError(error.response?.data?.message || "Failed to delete task");
     }
   }
 

@@ -31,7 +31,7 @@ const RegisterPage = () => {
 
       navigate("/");
     } catch (error) {
-      setError("Registration failed");
+      setError(error.response?.data?.message || "Registration failed");
     }
   };
 
