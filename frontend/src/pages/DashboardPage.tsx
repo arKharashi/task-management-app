@@ -126,12 +126,12 @@ const DashboardPage = () => {
   return (
     <div className="min-h-screen bg-[#f7f3ed] px-6 py-10 text-slate-900">
       <div className="mx-auto max-w-5xl">
-        <header className="mb-10 flex items-center justify-between">
+        <header className="mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-4xl font-semibold tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
               Task Management
             </h1>
-            <p className="mt-2 text-base text-slate-600">
+            <p className="mt-2 text-sm md:text-base text-slate-600">
               Manage your tasks in one clean workspace.
             </p>
           </div>
@@ -141,15 +141,14 @@ const DashboardPage = () => {
               href="https://github.com/arKharashi/task-management-app"
               target="_blank"
               rel="noreferrer"
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50"
-              aria-label="GitHub Repository"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-700 shadow-sm"
             >
-              <FaGithub size={20} />
+              <FaGithub size={18} />
             </a>
 
             <button
               onClick={handleLogout}
-              className="rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
+              className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 shadow-sm"
             >
               Logout
             </button>
