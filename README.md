@@ -1,30 +1,35 @@
-# Task Management App
+# 🧠 Task Management App (MERN Stack)
 
-A full-stack task management application built with the MERN stack.  
-Users can register, log in, and manage their tasks with a clean and modern UI.
-
----
-
-## Features
-
-- User authentication (JWT)
-- Register and login
-- Protected routes
-- Create tasks
-- View tasks
-- Edit tasks
-- Delete tasks
-- Mark tasks as completed / pending
-- Clean UI with Tailwind CSS
+A full-stack task management application built using the **MERN stack** with authentication, CRUD operations, and a clean responsive UI.
 
 ---
 
-## Tech Stack
+## 🚀 Live Demo
+
+- 🌐 Frontend: https://task-management-app-a01w.vercel.app
+- ⚙️ Backend API: https://task-management-app-o0nb.onrender.com
+
+---
+
+## ✨ Features
+
+- 🔐 User Authentication (Register / Login / JWT)
+- ✅ Create, Read, Update, Delete Tasks
+- 🎯 Task Priority (Low / Medium / High)
+- ✔️ Mark tasks as completed
+- ✏️ Edit tasks
+- 🗑️ Delete tasks
+- 📱 Responsive design (mobile + desktop)
+- 🌍 Deployed (Vercel + Render)
+
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
 
-- React
-- TypeScript
+- React + TypeScript
+- Vite
 - Tailwind CSS
 - Axios
 
@@ -35,58 +40,54 @@ Users can register, log in, and manage their tasks with a clean and modern UI.
 - MongoDB (Mongoose)
 - JWT Authentication
 
----
+### Deployment
 
-## Project Structure
-
-```
-task-management-app/
-├── backend/
-│   ├── src/
-│   ├── package.json
-│
-├── frontend/
-│   ├── src/
-│   ├── package.json
-```
+- Frontend: Vercel
+- Backend: Render
 
 ---
 
-## Getting Started
-
-### 1. Clone the repository
+## 📂 Project Structure
 
 ```bash
-git clone https://github.com/arkharashi/task-management-app.git
+task-management-app/
+│
+├── frontend/   # React app
+└── backend/    # Express API
+```
+
+---
+
+## ⚙️ Environment Variables
+
+### Backend (`.env`)
+
+```env
+PORT=10000
+MONGODB_URI=your_mongodb_connection
+JWT_SECRET=your_secret_key
+```
+
+---
+
+## 🧪 Run Locally
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/arKharashi/task-management-app.git
 cd task-management-app
 ```
 
----
-
-### 2. Setup Backend
+### 2. Backend
 
 ```bash
 cd backend
 npm install
-```
-
-Create `.env` file:
-
-```env
-PORT=5001
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-```
-
-Run backend:
-
-```bash
 npm run dev
 ```
 
----
-
-### 3. Setup Frontend
+### 3. Frontend
 
 ```bash
 cd frontend
@@ -96,32 +97,20 @@ npm run dev
 
 ---
 
-## API Endpoints
+## 📸 Screenshots
 
-### Auth
-
-- POST /api/auth/register
-- POST /api/auth/login
-
-### Tasks
-
-- GET /api/tasks
-- POST /api/tasks
-- PUT /api/tasks/:id
-- DELETE /api/tasks/:id
+_Add screenshots here later_
 
 ---
 
-## Future Improvements
+## 📌 Notes
 
-- Task filtering
-- Search functionality
-- Dark mode
-- UI animations
-- Drag & drop tasks
+- Backend is hosted on Render free tier → may sleep on inactivity
+- First request might take ~30 seconds
 
 ---
 
-## Author
+## 👨‍💻 Author
 
-- Abdulrahman
+**Abdulrahman Alkharashi**
+GitHub: https://github.com/arKharashi
