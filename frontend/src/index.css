@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Base styling (Claude-like) */
+body {
+  font-family: "Inter Tight", system-ui, sans-serif;
+  background-color: #f9fafb; /* soft gray */
+  color: #111827; /* not pure black */
+}
