@@ -56,6 +56,18 @@ const DashboardPage = () => {
     }
   }
 
+  async function handleDeleteTask(taskId: string) {
+    setError("");
+
+    try {
+      await api.delete(`/tasks/${taskId}`);
+
+      setTasks(tasks.filter((task) => task._id !== taskId));
+    } catch (error) {
+      setError("Failed to delete task");
+    }
+  }
+
   async function handleToggleComplete(task: Task) {
     setError("");
 
@@ -130,6 +142,7 @@ const DashboardPage = () => {
               <button onClick={() => handleToggleComplete(task)}>
                 {task.completed ? "Mark Pending" : "Mark Done"}
               </button>
+              <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
             </li>
           ))}
         </ul>
