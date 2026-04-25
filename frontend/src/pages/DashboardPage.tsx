@@ -1,14 +1,9 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import TaskForm from "../components/TaskForm";
+import TaskList from "../components/TaskList";
+import { type Task } from "../components/TaskItem";
 import api from "../services/api";
-
-type Task = {
-  _id: string;
-  title: string;
-  description?: string;
-  completed: boolean;
-  priority: string;
-};
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -132,99 +127,35 @@ const DashboardPage = () => {
     <div>
       <h1>Dashboard</h1>
 
+      <button onClick={handleLogout}>Logout</button>
+
       {error && <p>{error}</p>}
 
-      <form onSubmit={handleCreateTask}>
-        <div>
-          <label htmlFor="title">Title</label>
-          <input
-            id="title"
-            type="text"
-            placeholder="Task title"
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-          />
-        </div>
+      <TaskForm
+        title={title}
+        description={description}
+        priority={priority}
+        setTitle={setTitle}
+        setDescription={setDescription}
+        setPriority={setPriority}
+        onSubmit={handleCreateTask}
+      />
 
-        <div>
-          <label htmlFor="description">Description</label>
-          <input
-            id="description"
-            type="text"
-            placeholder="Task description"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="priority">Priority</label>
-          <select
-            id="priority"
-            value={priority}
-            onChange={(event) => setPriority(event.target.value)}
-          >
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
-        </div>
-
-        <button type="submit">Add Task</button>
-      </form>
-
-      {tasks.length === 0 ? (
-        <p>No tasks yet</p>
-      ) : (
-        <ul>
-          {tasks.map((task) => (
-            <li key={task._id}>
-              {editingTaskId === task._id ? (
-                <div>
-                  <input
-                    type="text"
-                    value={editTitle}
-                    onChange={(event) => setEditTitle(event.target.value)}
-                  />
-
-                  <input
-                    type="text"
-                    value={editDescription}
-                    onChange={(event) => setEditDescription(event.target.value)}
-                  />
-
-                  <select
-                    value={editPriority}
-                    onChange={(event) => setEditPriority(event.target.value)}
-                  >
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                  </select>
-
-                  <button onClick={() => handleSaveEdit(task._id)}>Save</button>
-                  <button onClick={handleCancelEdit}>Cancel</button>
-                </div>
-              ) : (
-                <div>
-                  <strong>{task.title}</strong> - {task.priority} -{" "}
-                  {task.completed ? "Done" : "Pending"}
-                  {task.description && <p>{task.description}</p>}
-                  <button onClick={() => handleToggleComplete(task)}>
-                    {task.completed ? "Mark Pending" : "Mark Done"}
-                  </button>
-                  <button onClick={() => handleStartEdit(task)}>Edit</button>
-                  <button onClick={() => handleDeleteTask(task._id)}>
-                    Delete
-                  </button>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <button onClick={handleLogout}>Logout</button>
+      <TaskList
+        tasks={tasks}
+        editingTaskId={editingTaskId}
+        editTitle={editTitle}
+        editDescription={editDescription}
+        editPriority={editPriority}
+        setEditTitle={setEditTitle}
+        setEditDescription={setEditDescription}
+        setEditPriority={setEditPriority}
+        onToggleComplete={handleToggleComplete}
+        onDelete={handleDeleteTask}
+        onStartEdit={handleStartEdit}
+        onCancelEdit={handleCancelEdit}
+        onSaveEdit={handleSaveEdit}
+      />
     </div>
   );
 };
