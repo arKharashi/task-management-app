@@ -1,4 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
+import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import TaskForm from "../components/TaskForm";
 import TaskList from "../components/TaskList";
@@ -124,38 +125,74 @@ const DashboardPage = () => {
   }
 
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="min-h-screen bg-[#f7f3ed] px-6 py-10 text-slate-900">
+      <div className="mx-auto max-w-5xl">
+        <header className="mb-10 flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-semibold tracking-tight">
+              Task Management
+            </h1>
+            <p className="mt-2 text-base text-slate-600">
+              Manage your tasks in one clean workspace.
+            </p>
+          </div>
 
-      <button onClick={handleLogout}>Logout</button>
+          <div className="flex items-center gap-3">
+            <a
+              href="https://github.com/arKharashi/task-management-app"
+              target="_blank"
+              rel="noreferrer"
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50"
+              aria-label="GitHub Repository"
+            >
+              <FaGithub size={20} />
+            </a>
 
-      {error && <p>{error}</p>}
+            <button
+              onClick={handleLogout}
+              className="rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50"
+            >
+              Logout
+            </button>
+          </div>
+        </header>
 
-      <TaskForm
-        title={title}
-        description={description}
-        priority={priority}
-        setTitle={setTitle}
-        setDescription={setDescription}
-        setPriority={setPriority}
-        onSubmit={handleCreateTask}
-      />
+        {error && (
+          <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </div>
+        )}
 
-      <TaskList
-        tasks={tasks}
-        editingTaskId={editingTaskId}
-        editTitle={editTitle}
-        editDescription={editDescription}
-        editPriority={editPriority}
-        setEditTitle={setEditTitle}
-        setEditDescription={setEditDescription}
-        setEditPriority={setEditPriority}
-        onToggleComplete={handleToggleComplete}
-        onDelete={handleDeleteTask}
-        onStartEdit={handleStartEdit}
-        onCancelEdit={handleCancelEdit}
-        onSaveEdit={handleSaveEdit}
-      />
+        <div className="rounded-2xl border border-slate-200 bg-white/85 p-7 shadow-sm">
+          <TaskForm
+            title={title}
+            description={description}
+            priority={priority}
+            setTitle={setTitle}
+            setDescription={setDescription}
+            setPriority={setPriority}
+            onSubmit={handleCreateTask}
+          />
+        </div>
+
+        <div className="mt-7">
+          <TaskList
+            tasks={tasks}
+            editingTaskId={editingTaskId}
+            editTitle={editTitle}
+            editDescription={editDescription}
+            editPriority={editPriority}
+            setEditTitle={setEditTitle}
+            setEditDescription={setEditDescription}
+            setEditPriority={setEditPriority}
+            onToggleComplete={handleToggleComplete}
+            onDelete={handleDeleteTask}
+            onStartEdit={handleStartEdit}
+            onCancelEdit={handleCancelEdit}
+            onSaveEdit={handleSaveEdit}
+          />
+        </div>
+      </div>
     </div>
   );
 };

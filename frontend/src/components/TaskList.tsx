@@ -18,11 +18,18 @@ type TaskListProps = {
 
 function TaskList(props: TaskListProps) {
   if (props.tasks.length === 0) {
-    return <p>No tasks yet</p>;
+    return (
+      <div className="rounded-2xl border border-dashed border-slate-300 bg-white/60 p-8 text-center">
+        <p className="text-sm font-medium text-slate-700">No tasks yet</p>
+        <p className="mt-1 text-sm text-slate-500">
+          Create your first task to get started.
+        </p>
+      </div>
+    );
   }
 
   return (
-    <ul>
+    <ul className="space-y-3">
       {props.tasks.map((task) => (
         <TaskItem key={task._id} task={task} {...props} />
       ))}
