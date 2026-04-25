@@ -99,9 +99,17 @@ npm run dev
 
 ## 📸 Screenshots
 
-_Add screenshots here later_
+### 🔐 Login Page
 
----
+![Login](./screenshots/login.png)
+
+### 📝 Register Page
+
+![Register](./screenshots/register.png)
+
+### 📋 Dashboard
+
+## ![Dashboard](./screenshots/dashboard.png)
 
 ## 📌 Notes
 
