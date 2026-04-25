@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 type Task = {
   _id: string;
@@ -30,9 +31,11 @@ const DashboardPage = () => {
     fetchTasks();
   }, []);
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/";
+    navigate("/");
   };
 
   async function handleCreateTask(event: React.FormEvent<HTMLFormElement>) {
