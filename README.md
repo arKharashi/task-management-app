@@ -101,15 +101,15 @@ npm run dev
 
 ### 🔐 Login Page
 
-![Login](./screenshots/login.png)
+![Login](./screenShots/login.png)
 
 ### 📝 Register Page
 
-![Register](./screenshots/register.png)
+![Register](./screenShots/register.png)
 
 ### 📋 Dashboard
 
-## ![Dashboard](./screenshots/dashboard.png)
+## ![Dashboard](./screenShots/dashboard.png)
 
 ## 📌 Notes
 
