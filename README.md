@@ -6,7 +6,7 @@ A full-stack task management application built using the **MERN stack** with aut
 
 ## 🚀 Live Demo
 
-- 🌐 Frontend: https://task-management-app-a01w.vercel.app
+- 🌐 Frontend: https://task-management-app-ao1w.vercel.app
 - ⚙️ Backend API: https://task-management-app-o0nb.onrender.com
 
 ---
